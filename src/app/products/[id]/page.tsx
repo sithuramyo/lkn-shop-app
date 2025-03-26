@@ -4,6 +4,9 @@ import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import React, { useState } from 'react';
 import { Product } from './type';
+import { Button } from '@/components/ui/button';
+import IconCard from '@/components/common/IconCard';
+import { BadgeCheck, ShieldCheck, Store, Truck } from 'lucide-react';
 
 const fetchProductById = async (id: number | string | string[]) => {
     const response = await fetch(`https://dummyjson.com/products/${id}`);
@@ -26,8 +29,8 @@ const ProductDetail = () => {
         enabled: !!id,
     });
 
-    const [selectedColor, setSelectedColor] = useState<string | null>(null);
-    const [selectedSize, setSelectedSize] = useState<string | null>(null);
+    const [selectedColor, setSelectedColor] = useState<string | null>(colors[0]);
+    const [selectedSize, setSelectedSize] = useState<string | null>(sizes[0]);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
     if (isLoading) {
@@ -68,11 +71,13 @@ const ProductDetail = () => {
                     height={400}
                 />
                 <div className="ml-8">
-                    <h1 className="text-3xl">{data?.title}</h1>
-                    <h1 className="text-3xl">$ {data?.price}</h1>
+                    <div className='mb-5'>
+                        <h1 className="text-3xl">{data?.title}</h1>
+                        <h1 className="text-3xl">$ {data?.price}</h1>
+                    </div>
 
                     {/* Color Picker */}
-                    <div className="mb-6">
+                    {/* <div className="mb-6">
                         <p className="font-semibold mb-2">Colors:</p>
                         <div className="flex space-x-2 mt-2">
                             {colors.map((color, index) => (
@@ -86,7 +91,7 @@ const ProductDetail = () => {
                                 />
                             ))}
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* Size Picker */}
                     <div className="mb-6">
@@ -95,7 +100,7 @@ const ProductDetail = () => {
                             {sizes.map((size, index) => (
                                 <button
                                     key={index}
-                                    className={`px-4 py-2 border rounded-lg text-sm font-medium ${selectedSize === size ? 'bg-gray-300 dark:bg-gray-700' : ''
+                                    className={`px-4 py-2 border rounded-lg text-sm font-medium ${selectedSize === size ? 'bg-accent' : ''
                                         } hover:bg-gray-200 dark:hover:bg-gray-600 transition`}
                                     onClick={() => setSelectedSize(size)}
                                 >
@@ -107,6 +112,29 @@ const ProductDetail = () => {
                     </div>
 
                     <p>{data?.description}</p>
+
+                    <div className='mt-5 flex flex-row gap-5'>
+                        <Button variant="outline" className='w-52 h-12 border-white'>Add to Wishlist</Button>
+                        <Button className='w-52 h-12 '>Add to Cart</Button>
+                    </div>
+
+                    <div className='mt-5 flex flex-row gap-5'>
+                        <IconCard
+                            icon={<Truck size={24} className='text-black dark:text-white' />}
+                            title="Free Delivery"
+                            subtitle="5-7 days"
+                        />
+                        <IconCard
+                            icon={<BadgeCheck size={24} className='text-black dark:text-white' />}
+                            title="Guaranteed"
+                            subtitle="1 year"
+                        />
+                        <IconCard
+                            icon={<Store size={24} className='text-black dark:text-white' />}
+                            title="In Stock"
+                            subtitle="today"
+                        />
+                    </div>
                 </div>
             </div>
         </div>
