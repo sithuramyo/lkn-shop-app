@@ -11,6 +11,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface Root {
     products: Product[]
@@ -121,24 +122,26 @@ const ShoppingItems = () => {
             <div className='grid grid-cols-4 gap-10'>
                 {
                     data?.products.map((product: Product) => (
-                        <Card
-                            key={product.id}
-                            className='p-4 transform transition-transform duration-300 hover:scale-110 hover:shadow-lg'
-                        >
-                            <CardHeader>
-                                <Image
-                                    src={product.images[0] || '/placeholder-image.png'}
-                                    alt={`product - ${product.id}`}
-                                    width={300}
-                                    height={300}
-                                    className='w-40 h-60'
-                                />
-                            </CardHeader>
-                            <CardContent>
-                                <CardTitle className='line-clamp-2'>{product.title}</CardTitle>
-                                <CardTitle className='font-bold'>$ {product.price}</CardTitle>
-                            </CardContent>
-                        </Card>
+                        <Link href={`/products/${product.id}`} key={product.id}>
+                            <Card
+                                key={product.id}
+                                className='p-4 transform transition-transform duration-300 hover:scale-110 hover:shadow-lg'
+                            >
+                                <CardHeader>
+                                    <Image
+                                        src={product.images[0] || '/placeholder-image.png'}
+                                        alt={`product - ${product.id}`}
+                                        width={300}
+                                        height={300}
+                                        className='w-40 h-60'
+                                    />
+                                </CardHeader>
+                                <CardContent>
+                                    <CardTitle className='truncate'>{product.title}</CardTitle>
+                                    <CardTitle className='font-bold'>$ {product.price}</CardTitle>
+                                </CardContent>
+                            </Card>
+                        </Link>
                     ))
                 }
             </div>
